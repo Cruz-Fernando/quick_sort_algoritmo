@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QUICK SORT</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <h1 class="hero__title">QUICK SORT</h1>
+      <p class="hero__subtitle">Ordenamiento visual con cartas · valor desde el nombre del archivo (<code>_p67</code> → 67)</p>
+    </header>
+
+    <main class="app">
+      <section class="panel panel--main">
+        <div class="toolbar">
+          <div class="toolbar__actions">
+            <button id="shuffleBtn" class="btn btn--secondary" type="button">Revolver</button>
+            <button id="quickSortBtn" class="btn btn--primary" type="button">QuickSort</button>
+            <button id="stepBtn" class="btn" type="button">Paso a paso</button>
+          </div>
+          <label class="toolbar__pivotMode" for="manualPivotToggle">
+            <input id="manualPivotToggle" type="checkbox" />
+            <span>Elegir pivote manualmente</span>
+          </label>
+          <div class="toolbar__speed">
+            <label for="speedRange">Velocidad</label>
+            <input id="speedRange" type="range" min="100" max="1200" step="50" value="400" />
+            <span id="speedLabel" class="muted">400 ms</span>
+          </div>
+        </div>
+
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+
+        <div class="deckSection">
+          <h2 class="sectionTitle">Fila de cartas</h2>
+          <div id="deck" class="deck deck--row" aria-label="Cartas en fila"></div>
+        </div>
+
+        <div class="gameSection">
+          <h2 class="sectionTitle">Partición</h2>
+          <div class="piles">
+            <div class="pile">
+              <div class="pile__title">Menores</div>
+              <div id="pileLeft" class="pile__cards"></div>
+            </div>
+            <div class="pile pile--pivot">
+              <div class="pile__title">Pivote</div>
+              <div id="pilePivot" class="pile__cards pile__cards--pivot"></div>
+            </div>
+            <div class="pile">
+              <div class="pile__title">Mayores o iguales</div>
+              <div id="pileRight" class="pile__cards"></div>
+            </div>
+          </div>
+
+          <div id="subdeckWrap" class="subdeckWrap">
+            <div class="subdeckLabel">Subarreglo actual</div>
+            <div id="subdeck" class="deck deck--subdeck"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel panel--tree">
+        <div class="treeHeader">
+          <h2 class="sectionTitle">Árbol de recursión</h2>
+          <p class="treeHint">La raíz es el arreglo revuelto. Cada nodo se divide en <strong>izquierda</strong> (menores al pivote) y <strong>derecha</strong> (mayores o iguales). Clic en un nodo para ver su arreglo.</p>
+        </div>
+
+        <div id="treeSnapshot" class="treeSnapshot treeSnapshot--empty">
+          <div class="treeSnapshot__placeholder">Selecciona un nodo del árbol para ver el arreglo</div>
+          <div id="treeSnapshotContent" class="treeSnapshot__content">
+            <div id="snapshotTitle" class="treeSnapshot__title"></div>
+            <div id="snapshotDesc" class="treeSnapshot__desc"></div>
+            <div id="snapshotCards" class="snapshotCards"></div>
+          </div>
+        </div>
+
+        <div class="treeViewport">
+          <ul id="tree" class="treeRoot"></ul>
+        </div>
+      </section>
+    </main>
+
+    <div id="pivotOverlay" class="pivotOverlay" aria-hidden="true" hidden>
+      <div class="pivotOverlay__backdrop"></div>
+      <div id="pivotOverlayCard" class="pivotOverlay__card"></div>
+      <div class="pivotOverlay__label">PIVOTE</div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
