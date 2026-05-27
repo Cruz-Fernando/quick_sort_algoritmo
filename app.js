@@ -24,6 +24,13 @@ const treeEl = document.getElementById("tree");
 const pivotOverlay = document.getElementById("pivotOverlay");
 const pivotOverlayCard = document.getElementById("pivotOverlayCard");
 
+const goalOverlay = document.getElementById("goalOverlay");
+const goalBall = document.getElementById("goalBall");
+const goalText = document.getElementById("goalText");
+const goalSubtext = document.getElementById("goalSubtext");
+const goalConfetti = document.getElementById("goalConfetti");
+const goalNet = goalOverlay?.querySelector(".goalOverlay__net");
+
 const treeSnapshotEl = document.getElementById("treeSnapshot");
 const treeSnapshotContentEl = document.getElementById("treeSnapshotContent");
 const snapshotTitleEl = document.getElementById("snapshotTitle");
@@ -38,6 +45,10 @@ const PIVOT_ZOOM_H = 364;
 const PIVOT_ZOOM_MS = 1600;
 const PIVOT_HOLD_MS = 1200;
 const PIVOT_LAND_MS = 1100;
+
+const GOAL_CELEBRATION_MS = 2800;
+const GOAL_CELEBRATION_FINAL_MS = 4200;
+let goalCelebrating = false;
 
 /** @type {Array<{id:string,value:number,imageUrl:string,filename:string}>} */
 let deckCards = [];
@@ -363,6 +374,104 @@ async function animatePivotSelection(card, sourceCardEl) {
 
   pivotAnimating = false;
   refreshActionButtons();
+}
+
+/* ── Goal celebration animation ── */
+
+function createConfetti(container, count) {
+  const colors = [
+    "#fbbf24", "#10b981", "#22d3ee", "#ffffff",
+    "#f59e0b", "#34d399", "#06b6d4", "#a7f3d0",
+    "#fde68a", "#6ee7b7",
+  ];
+  const shapes = ["circle", "rect", "triangle"];
+
+  for (let i = 0; i < count; i++) {
+    const piece = document.createElement("div");
+    piece.className = "confetti";
+
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+    const size = 6 + Math.random() * 10;
+
+    piece.style.width = `${size}px`;
+    piece.style.height = shape === "rect" ? `${size * 0.6}px` : `${size}px`;
+    piece.style.backgroundColor = color;
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.top = `-${10 + Math.random() * 30}px`;
+
+    if (shape === "circle") {
+      piece.style.borderRadius = "50%";
+    } else if (shape === "triangle") {
+      piece.style.backgroundColor = "transparent";
+      piece.style.width = "0";
+      piece.style.height = "0";
+      piece.style.borderLeft = `${size / 2}px solid transparent`;
+      piece.style.borderRight = `${size / 2}px solid transparent`;
+      piece.style.borderBottom = `${size}px solid ${color}`;
+    }
+
+    // Randomize animation variables
+    const fallDuration = 2 + Math.random() * 2;
+    const fallDelay = Math.random() * 1.2;
+    const driftX = -80 + Math.random() * 160;
+    const spin = 360 + Math.random() * 720;
+    const startY = -(10 + Math.random() * 40);
+
+    piece.style.setProperty("--fall-duration", `${fallDuration}s`);
+    piece.style.setProperty("--fall-delay", `${fallDelay}s`);
+    piece.style.setProperty("--drift-x", `${driftX}px`);
+    piece.style.setProperty("--spin", `${spin}deg`);
+    piece.style.setProperty("--start-y", `${startY}px`);
+
+    container.appendChild(piece);
+  }
+}
+
+async function playGoalCelebration({ text = "¡GOOOL!", subtext = "", isFinal = false, durationMs = GOAL_CELEBRATION_MS } = {}) {
+  if (!goalOverlay || goalCelebrating) return;
+
+  goalCelebrating = true;
+
+  // Reset state
+  goalOverlay.classList.remove("is-visible", "goalOverlay--final");
+  goalNet?.classList.remove("is-shaking");
+  goalConfetti.innerHTML = "";
+  goalText.textContent = text;
+  goalSubtext.textContent = subtext;
+
+  if (isFinal) {
+    goalOverlay.classList.add("goalOverlay--final");
+  }
+
+  // Show overlay
+  goalOverlay.hidden = false;
+  // Force reflow before adding animations
+  void goalOverlay.offsetWidth;
+  goalOverlay.classList.add("is-visible");
+
+  // Create confetti
+  const confettiCount = isFinal ? 80 : 35;
+  createConfetti(goalConfetti, confettiCount);
+
+  // After ball reaches the net (~700ms), shake it
+  await sleep(700);
+  goalNet?.classList.add("is-shaking");
+
+  // Hold the celebration
+  await sleep(durationMs - 700);
+
+  // Fade out
+  goalOverlay.classList.remove("is-visible");
+  await sleep(500);
+
+  // Clean up
+  goalOverlay.hidden = true;
+  goalOverlay.classList.remove("goalOverlay--final");
+  goalNet?.classList.remove("is-shaking");
+  goalConfetti.innerHTML = "";
+
+  goalCelebrating = false;
 }
 
 /* ── Recursion tree ── */
@@ -853,11 +962,29 @@ async function applyEvent(event) {
     if (frames.length && frames[frames.length - 1].callId === event.callId) {
       frames.pop();
     }
+
+    // Goal celebration for completed subarray (non-blocking)
+    if (event.resultValues.length > 1) {
+      playGoalCelebration({
+        text: "¡GOOOL!",
+        subtext: `Subarreglo ordenado: [${event.resultValues.join(", ")}]`,
+        isFinal: false,
+        durationMs: GOAL_CELEBRATION_MS,
+      });
+    }
     return;
   }
 
   if (event.type === "rootComplete") {
     setStatus(`QuickSort terminado: [${event.cardValues.join(", ")}]`);
+
+    // Grand finale goal celebration
+    playGoalCelebration({
+      text: "🏆 ¡CAMPEÓN!",
+      subtext: `Ordenamiento completo: [${event.cardValues.join(", ")}]`,
+      isFinal: true,
+      durationMs: GOAL_CELEBRATION_FINAL_MS,
+    });
   }
 }
 

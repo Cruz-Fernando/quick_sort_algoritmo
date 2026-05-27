@@ -1,14 +1,16 @@
 :root {
-  --bg: #060a14;
-  --bg2: #0c1424;
-  --panel: rgba(14, 22, 40, 0.92);
-  --text: #f0f4ff;
-  --muted: rgba(240, 244, 255, 0.62);
-  --border: rgba(240, 244, 255, 0.1);
-  --accent: #8b5cf6;
-  --accent-glow: rgba(139, 92, 246, 0.45);
-  --accent2: #22d3ee;
-  --accent2-glow: rgba(34, 211, 238, 0.35);
+  --bg: #031208;
+  --bg2: #061c0e;
+  --panel: rgba(5, 20, 11, 0.92);
+  --text: #f2fcf5;
+  --muted: rgba(242, 252, 245, 0.65);
+  --border: rgba(242, 252, 245, 0.08);
+  --accent-rgb: 16, 185, 129; /* Emerald Green */
+  --accent: rgb(var(--accent-rgb));
+  --accent-glow: rgba(var(--accent-rgb), 0.45);
+  --accent2-rgb: 34, 211, 238; /* Cyan */
+  --accent2: rgb(var(--accent2-rgb));
+  --accent2-glow: rgba(var(--accent2-rgb), 0.35);
   --gold: #fbbf24;
   --cardW: 92px;
   --cardH: 128px;
@@ -23,10 +25,22 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: "Segoe UI", ui-sans-serif, system-ui, sans-serif;
-  background:
-    radial-gradient(900px 500px at 50% -10%, rgba(139, 92, 246, 0.28), transparent 60%),
-    radial-gradient(700px 400px at 90% 20%, rgba(34, 211, 238, 0.12), transparent 55%),
-    linear-gradient(180deg, var(--bg) 0%, #080e1a 100%);
+  /* Deep stadium turf and lighting theme */
+  background-color: #031208;
+  background-image:
+    /* Floodlights from top left and top right */
+    radial-gradient(circle at 15% 0%, rgba(34, 211, 238, 0.18) 0%, transparent 65%),
+    radial-gradient(circle at 85% 0%, rgba(16, 185, 129, 0.18) 0%, transparent 65%),
+    /* Pitch spotlight in the center */
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 55%),
+    /* Alternating vertical grass stripes */
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.008) 0px, rgba(255, 255, 255, 0.008) 60px, transparent 60px, transparent 120px),
+    /* Soccer field tactical lines SVG */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Crect x='20' y='20' width='1160' height='760' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='4'/%3E%3Cline x1='600' y1='20' x2='600' y2='780' stroke='rgba(255,255,255,0.04)' stroke-width='4'/%3E%3Ccircle cx='600' cy='400' r='120' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='4'/%3E%3Ccircle cx='600' cy='400' r='6' fill='rgba(255,255,255,0.06)'/%3E%3Crect x='20' y='220' width='140' height='360' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='4'/%3E%3Crect x='20' y='320' width='50' height='160' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='4'/%3E%3Crect x='1040' y='220' width='140' height='360' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='4'/%3E%3Crect x='1130' y='320' width='50' height='160' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='4'/%3E%3Cpath d='M 160,340 A 100,100 0 0,1 160,460' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='4'/%3E%3Cpath d='M 1040,340 A 100,100 0 0,0 1040,460' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='4'/%3E%3C/svg%3E");
+  background-size: 100% 100%, 100% 100%, 100% 100%, cover, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--text);
 }
 
@@ -35,7 +49,7 @@ body {
   text-align: center;
   padding: 28px 20px 22px;
   border-bottom: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(139, 92, 246, 0.08), transparent);
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.08), transparent);
 }
 
 .hero__title {
@@ -43,7 +57,7 @@ body {
   font-size: clamp(2.4rem, 6vw, 3.6rem);
   font-weight: 900;
   letter-spacing: 0.18em;
-  background: linear-gradient(135deg, #fff 0%, #c4b5fd 45%, #22d3ee 100%);
+  background: linear-gradient(135deg, #fff 0%, #a7f3d0 45%, #22d3ee 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -84,7 +98,7 @@ body {
 
 .panel--tree {
   margin-top: 8px;
-  border-color: rgba(139, 92, 246, 0.22);
+  border-color: rgba(var(--accent-rgb), 0.22);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
@@ -185,13 +199,13 @@ body {
 }
 
 .btn--primary {
-  border-color: rgba(139, 92, 246, 0.55);
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(139, 92, 246, 0.15));
-  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.25);
+  border-color: rgba(var(--accent-rgb), 0.55);
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.35), rgba(var(--accent-rgb), 0.15));
+  box-shadow: 0 4px 20px rgba(var(--accent-rgb), 0.25);
 }
 
 .btn--primary:hover:not(:disabled) {
-  box-shadow: 0 6px 28px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 6px 28px rgba(var(--accent-rgb), 0.4);
 }
 
 .btn--secondary {
@@ -281,7 +295,7 @@ body {
 }
 
 .card--pivot-slot {
-  border-color: rgba(139, 92, 246, 0.6);
+  border-color: rgba(var(--accent-rgb), 0.6);
   box-shadow: 0 0 0 3px var(--accent-glow), 0 12px 32px rgba(0, 0, 0, 0.5);
 }
 
@@ -295,7 +309,7 @@ body {
 .card__fallback {
   width: 100%;
   height: 100%;
-  background: linear-gradient(145deg, rgba(139, 92, 246, 0.3), rgba(34, 211, 238, 0.15));
+  background: linear-gradient(145deg, rgba(var(--accent-rgb), 0.3), rgba(var(--accent2-rgb), 0.15));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -320,8 +334,8 @@ body {
 }
 
 .card__value--pivot {
-  background: rgba(139, 92, 246, 0.85);
-  border-color: #c4b5fd;
+  background: rgba(var(--accent-rgb), 0.85);
+  border-color: #a7f3d0;
   box-shadow: 0 0 16px var(--accent-glow);
 }
 
@@ -395,9 +409,9 @@ body {
 }
 
 .pile--pivot {
-  background: linear-gradient(180deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
-  border-color: rgba(139, 92, 246, 0.35);
-  box-shadow: inset 0 0 40px rgba(139, 92, 246, 0.08);
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.15), rgba(var(--accent-rgb), 0.05));
+  border-color: rgba(var(--accent-rgb), 0.35);
+  box-shadow: inset 0 0 40px rgba(var(--accent-rgb), 0.08);
 }
 
 .pile__title {
@@ -411,7 +425,7 @@ body {
 }
 
 .pile--pivot .pile__title {
-  color: #c4b5fd;
+  color: var(--gold);
 }
 
 .pile__cards {
@@ -492,7 +506,7 @@ body {
   width: var(--cardW);
   height: var(--cardH);
   border-radius: 14px;
-  border: 3px solid #c4b5fd;
+  border: 3px solid var(--gold);
   overflow: hidden;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 4px var(--accent-glow);
   z-index: 1001;
@@ -515,7 +529,7 @@ body {
   box-shadow:
     0 32px 80px rgba(0, 0, 0, 0.7),
     0 0 0 8px var(--accent-glow),
-    0 0 80px rgba(139, 92, 246, 0.55);
+    0 0 80px rgba(var(--accent-rgb), 0.55);
   animation: pivotPulse 1.2s ease-in-out infinite alternate;
 }
 
@@ -524,12 +538,12 @@ body {
     box-shadow:
       0 32px 80px rgba(0, 0, 0, 0.7),
       0 0 0 8px var(--accent-glow),
-      0 0 50px rgba(139, 92, 246, 0.4);
+      0 0 50px rgba(var(--accent-rgb), 0.4);
   }
   to {
     box-shadow:
       0 36px 90px rgba(0, 0, 0, 0.75),
-      0 0 0 12px rgba(139, 92, 246, 0.35),
+      0 0 0 12px rgba(var(--accent-rgb), 0.35),
       0 0 100px rgba(251, 191, 36, 0.35);
   }
 }
@@ -595,7 +609,7 @@ body {
   transform: translateX(-50%);
   width: 2px;
   height: 36px;
-  background: linear-gradient(180deg, rgba(139, 92, 246, 0.8), rgba(34, 211, 238, 0.45));
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.8), rgba(var(--accent2-rgb), 0.45));
 }
 
 .treeBranch {
@@ -621,12 +635,12 @@ body {
 
 .treeBranch--left .treeBranch__label {
   color: #67e8f9;
-  border-color: rgba(34, 211, 238, 0.35);
+  border-color: rgba(var(--accent2-rgb), 0.35);
 }
 
 .treeBranch--right .treeBranch__label {
-  color: #c4b5fd;
-  border-color: rgba(139, 92, 246, 0.35);
+  color: #a7f3d0;
+  border-color: rgba(var(--accent-rgb), 0.35);
 }
 
 .treeSub {
@@ -644,7 +658,7 @@ body {
   transform: translateX(-50%);
   width: 2px;
   height: 10px;
-  background: rgba(139, 92, 246, 0.45);
+  background: rgba(var(--accent-rgb), 0.45);
 }
 
 .treeNodeBtn.is-root {
@@ -758,7 +772,7 @@ body {
   padding: 28px 16px 16px;
   min-height: 220px;
   background:
-    radial-gradient(600px 200px at 50% 0%, rgba(139, 92, 246, 0.12), transparent 70%),
+    radial-gradient(600px 200px at 50% 0%, rgba(var(--accent-rgb), 0.12), transparent 70%),
     rgba(0, 0, 0, 0.22);
   border-radius: 14px;
   border: 1px solid var(--border);
@@ -787,8 +801,8 @@ body {
   z-index: 2;
   appearance: none;
   cursor: pointer;
-  border: 2px solid rgba(139, 92, 246, 0.45);
-  background: linear-gradient(180deg, rgba(35, 30, 70, 0.98), rgba(12, 16, 32, 0.98));
+  border: 2px solid rgba(var(--accent-rgb), 0.45);
+  background: linear-gradient(180deg, rgba(8, 30, 16, 0.98), rgba(4, 14, 8, 0.98));
   color: var(--text);
   border-radius: 14px;
   padding: 12px 16px;
@@ -802,8 +816,8 @@ body {
 
 .treeNodeBtn:hover {
   transform: translateY(-2px) scale(1.03);
-  border-color: rgba(139, 92, 246, 0.7);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.25);
+  border-color: rgba(var(--accent-rgb), 0.7);
+  box-shadow: 0 8px 24px rgba(var(--accent-rgb), 0.25);
 }
 
 .treeNodeBtn.is-active {
@@ -867,4 +881,241 @@ body {
     max-width: 120px;
     padding: 8px 10px;
   }
+}
+
+/* ── Goal Celebration Overlay ── */
+.goalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 800px;
+}
+
+.goalOverlay[hidden] {
+  display: none;
+}
+
+.goalOverlay__backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, rgba(16, 185, 129, 0.25), rgba(0, 0, 0, 0.82) 70%);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.goalOverlay.is-visible .goalOverlay__backdrop {
+  opacity: 1;
+}
+
+/* Goal net */
+.goalOverlay__net {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) perspective(600px) rotateX(2deg);
+  width: clamp(280px, 40vw, 440px);
+  opacity: 0;
+  transition: opacity 0.5s ease 0.1s;
+}
+
+.goalOverlay.is-visible .goalOverlay__net {
+  opacity: 1;
+}
+
+.goalOverlay__netSvg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.15));
+}
+
+/* Soccer ball */
+.goalOverlay__ball {
+  position: absolute;
+  font-size: 4rem;
+  opacity: 0;
+  z-index: 2001;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.6));
+  /* Start position: bottom center */
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.4) rotate(0deg);
+  transition: none;
+}
+
+.goalOverlay.is-visible .goalOverlay__ball {
+  animation: goalBallFly 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes goalBallFly {
+  0% {
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.5) rotate(0deg);
+    opacity: 1;
+  }
+  40% {
+    bottom: 55%;
+    left: 50%;
+    transform: translateX(-50%) scale(1.2) rotate(-180deg);
+    opacity: 1;
+  }
+  70% {
+    bottom: 52%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9) rotate(-300deg);
+    opacity: 1;
+  }
+  85% {
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%) scale(1.05) rotate(-340deg);
+    opacity: 1;
+  }
+  100% {
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%) scale(1) rotate(-360deg);
+    opacity: 1;
+  }
+}
+
+/* Net shake when ball hits */
+.goalOverlay__net.is-shaking {
+  animation: netShake 0.5s ease-in-out;
+}
+
+@keyframes netShake {
+  0%, 100% { transform: translate(-50%, -50%) perspective(600px) rotateX(2deg); }
+  15% { transform: translate(-50%, -50%) perspective(600px) rotateX(2deg) translateZ(12px) scale(1.03); }
+  30% { transform: translate(-50%, -50%) perspective(600px) rotateX(2deg) translateZ(-6px) scale(0.98); }
+  50% { transform: translate(-50%, -50%) perspective(600px) rotateX(2deg) translateZ(4px) scale(1.01); }
+  70% { transform: translate(-50%, -50%) perspective(600px) rotateX(2deg) translateZ(-2px); }
+}
+
+/* GOOOL text */
+.goalOverlay__text {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-shadow:
+    0 0 40px rgba(251, 191, 36, 0.7),
+    0 0 80px rgba(251, 191, 36, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  z-index: 2002;
+  white-space: nowrap;
+}
+
+.goalOverlay.is-visible .goalOverlay__text {
+  animation: goalTextPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.7s forwards;
+}
+
+@keyframes goalTextPop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.2) rotate(-8deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.15) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1) rotate(0deg);
+  }
+}
+
+/* Subtext under GOOOL */
+.goalOverlay__subtext {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  z-index: 2002;
+  white-space: nowrap;
+  letter-spacing: 0.06em;
+}
+
+.goalOverlay.is-visible .goalOverlay__subtext {
+  animation: fadeInUp 0.5s ease 1s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Confetti container */
+.goalOverlay__confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2003;
+}
+
+/* Individual confetti piece */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  border-radius: 2px;
+}
+
+.goalOverlay.is-visible .confetti {
+  animation: confettiFall var(--fall-duration, 2.5s) cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--fall-delay, 0s) forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    opacity: 1;
+    transform: translateY(var(--start-y, -20px)) translateX(0) rotate(0deg) scale(1);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(110vh) translateX(var(--drift-x, 40px)) rotate(var(--spin, 720deg)) scale(0.5);
+  }
+}
+
+/* Final celebration: bigger, more dramatic */
+.goalOverlay--final .goalOverlay__text {
+  font-size: clamp(4rem, 14vw, 8rem);
+  color: #fff;
+  text-shadow:
+    0 0 60px rgba(251, 191, 36, 0.9),
+    0 0 120px rgba(16, 185, 129, 0.5),
+    0 6px 12px rgba(0, 0, 0, 0.7);
+}
+
+.goalOverlay--final .goalOverlay__ball {
+  font-size: 6rem;
+}
+
+.goalOverlay--final .goalOverlay__backdrop {
+  background: radial-gradient(circle at 50% 40%, rgba(251, 191, 36, 0.2), rgba(16, 185, 129, 0.15) 40%, rgba(0, 0, 0, 0.88) 75%);
 }
